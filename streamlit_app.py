@@ -100,10 +100,12 @@ def main() -> None:
         div[data-testid="stSlider"] input[type="range"]::-webkit-slider-thumb {
             background: #ff4fa3;
             border: 2px solid #ff4fa3;
+            box-shadow: 0 0 0 3px rgba(255, 79, 163, 0.2);
         }
         div[data-testid="stSlider"] input[type="range"]::-moz-range-thumb {
             background: #ff4fa3;
             border: 2px solid #ff4fa3;
+            box-shadow: 0 0 0 3px rgba(255, 79, 163, 0.2);
         }
         div[data-testid="stSlider"] input[type="range"]::-webkit-slider-runnable-track {
             background: linear-gradient(90deg, #ff8ac4 0%, #ff4fa3 100%);
