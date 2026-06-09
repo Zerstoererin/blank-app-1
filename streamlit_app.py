@@ -44,8 +44,40 @@ def main() -> None:
     if not st.session_state.confirmed:
         st.title("🌍 Temperaturdaten aus Berkeley Earth")
         st.write("Bitte bestätige zuerst, dass du die Seite sehen möchtest.")
+        st.markdown(
+            """
+            <style>
+            div.stButton > button {
+                width: 100%;
+                height: 70px;
+                border-radius: 999px;
+                font-size: 1.1rem;
+                font-weight: 700;
+                background: linear-gradient(90deg, #ff4fa3 0%, #ff69b4 100%);
+                color: white;
+                border: none;
+                box-shadow: 0 6px 20px rgba(255, 79, 163, 0.35);
+                transition: all 0.2s ease-in-out;
+            }
+            div.stButton > button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 24px rgba(255, 79, 163, 0.45);
+            }
+            div.stButton > button:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(255, 79, 163, 0.25);
+            }
+            div.stButton > button:active {
+                background: linear-gradient(90deg, #32cd32 0%, #7CFC00 100%);
+                color: #083b00;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+
         st.button(
-            "Ich bin nicht SIna Sina Saglam",
+            "Ich bin nicht Sina Sina Saglam",
             use_container_width=True,
             type="primary",
             on_click=lambda: st.session_state.update(confirmed=True),
