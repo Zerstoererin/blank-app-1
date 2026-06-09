@@ -37,6 +37,21 @@ def load_temperature_data() -> pd.DataFrame:
 
 def main() -> None:
     st.set_page_config(page_title="Temperature Table", page_icon="🌍", layout="wide")
+
+    if "confirmed" not in st.session_state:
+        st.session_state.confirmed = False
+
+    if not st.session_state.confirmed:
+        st.title("🌍 Temperaturdaten aus Berkeley Earth")
+        st.write("Bitte bestätige zuerst, dass du die Seite sehen möchtest.")
+        st.button(
+            "Ich bin nicht SIna Sina Saglam",
+            use_container_width=True,
+            type="primary",
+            on_click=lambda: st.session_state.update(confirmed=True),
+        )
+        st.stop()
+
     st.title("🌍 Temperaturdaten aus Berkeley Earth")
     st.write("Diese Tabelle wird direkt aus der angegebenen Quelle geladen.")
 
