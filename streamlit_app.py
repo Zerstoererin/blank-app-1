@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+import plotly.express as px
 
 
 @st.cache_data(show_spinner=False)
@@ -43,6 +44,31 @@ def main() -> None:
 
     st.caption(f"{len(df):,} Zeilen geladen")
 
+    st.markdown(
+        """
+        <style>
+        div[data-testid="stSlider"] input[type="range"] {
+            accent-color: #ff4fa3;
+        }
+        div[data-testid="stSlider"] input[type="range"]::-webkit-slider-thumb {
+            background: #ff4fa3;
+            border: 2px solid #ff4fa3;
+        }
+        div[data-testid="stSlider"] input[type="range"]::-moz-range-thumb {
+            background: #ff4fa3;
+            border: 2px solid #ff4fa3;
+        }
+        div[data-testid="stSlider"] input[type="range"]::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #ff8ac4 0%, #ff4fa3 100%);
+        }
+        div[data-testid="stSlider"] input[type="range"]::-moz-range-track {
+            background: linear-gradient(90deg, #ff8ac4 0%, #ff4fa3 100%);
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     year_min = int(df["Year"].min())
     year_max = int(df["Year"].max())
     selected_years = st.slider(
@@ -50,6 +76,7 @@ def main() -> None:
         min_value=year_min,
         max_value=year_max,
         value=(year_min, year_max),
+        label_visibility="visible",
     )
 
     filtered_df = df[
@@ -67,7 +94,31 @@ def main() -> None:
         }
     )
 
-    st.dataframe(display_df, use_container_width=True)
+    fig = px.line(
+        filtered_df,
+        x="Date",
+        y="Monthly_Anomaly",
+        title="Monatliche Temperatur-Anomalie",
+        labels={"Date": "Datum", "Monthly_Anomaly": "Anomalie"},
+        line_shape="spline",
+    )
+    fig.update_traces(line=dict(color="#ff4fa3", width=3))
+    fig.update_layout(template="plotly_white", margin=dict(l=20, r=20, t=50, b=20))
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.markdown(
+        """
+        <style>
+        div[data-testid="stDataFrame"] {
+            max-height: 420px;
+            overflow: auto;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.dataframe(display_df, use_container_width=True, height=420)
 
 
 if __name__ == "__main__":
